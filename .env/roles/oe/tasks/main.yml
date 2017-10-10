@@ -1,0 +1,58 @@
+---
+- name: install oe dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - cpio
+    - python3
+    - gawk
+    - wget
+    - git-core
+    - diffstat
+    - unzip
+    - texinfo
+    - gcc-multilib
+    - build-essential
+    - chrpath
+    - libsdl1.2-dev
+    - xterm
+
+- name: create oe root directory
+  file:
+    path: /var/lib/oe
+    owner: user
+    group: user
+    mode: 0755
+    state: directory
+
+- name: fetch oe source repositories
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.branch }}"
+  become: yes
+  become_user: user
+  with_items:
+    - { repo: "git://git.openembedded.org/openembedded-core", dest: "/var/lib/oe", branch: "{{ oe.branch | default('master') }}" }
+    - { repo: "git://git.openembedded.org/meta-openembedded", dest: "/var/lib/oe/meta-openembedded", branch: "{{ oe.branch | default('master') }}" }
+    - { repo: "git://git.openembedded.org/bitbake", dest: "/var/lib/oe/bitbake", branch: "{{ bb.branch | default('master') }}" }
+
+- name: create symlinks
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: "/var/lib/oe", dest: "/home/user/oe" }
+    - { src: "/usr/local/development/meta-xperia", dest: "/var/lib/oe/meta-xperia" }
+
+- name: initialize oe build directory
+  shell: . ./oe-init-build-env
+  environment:
+    TEMPLATECONF: meta-xperia/conf/samples
+  args:
+    chdir: /var/lib/oe
+    creates: /var/lib/oe/build
+  become: yes
+  become_user: user

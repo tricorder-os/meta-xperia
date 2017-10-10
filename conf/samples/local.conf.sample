@@ -1,0 +1,43 @@
+# local.conf
+
+DISTRO ?= "phonos"
+MACHINE ?= "lilac"
+#SDKMACHINE ?= "i686"
+
+TMPDIR = "${TOPDIR}/${MACHINE}"
+PACKAGE_CLASSES ?= "package_ipk"
+BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
+
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+#  "dbg-pkgs"       - add -dbg packages for all installed packages
+#  "dev-pkgs"       - add -dev packages for all installed packages
+#  "ptest-pkgs"     - add -ptest packages for all ptest-enabled packages
+#  "tools-sdk"      - add development tools (gcc, make, pkgconfig etc.)
+#  "tools-debug"    - add debugging tools (gdb, strace)
+#  "eclipse-debug"  - add Eclipse remote debugging support
+#  "tools-profile"  - add profiling tools (oprofile, lttng, valgrind)
+#  "tools-testapps" - add useful testing tools (ts_print, aplay, arecord etc.)
+#  "debug-tweaks"   - make an image suitable for development
+USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+
+
+# By default disable interactive patch resolution (tasks will just fail instead):
+PATCHRESOLVE = "noop"
+
+# Disk Space Monitoring during the build
+BB_DISKMON_DIRS = "\
+    STOPTASKS,${TMPDIR},1G,100K \
+    STOPTASKS,${DL_DIR},1G,100K \
+    STOPTASKS,${SSTATE_DIR},1G,100K \
+    STOPTASKS,/tmp,100M,100K \
+    ABORT,${TMPDIR},100M,1K \
+    ABORT,${DL_DIR},100M,1K \
+    ABORT,${SSTATE_DIR},100M,1K \
+    ABORT,/tmp,10M,1K"
+
+PACKAGECONFIG_append_pn-qemu-native = " sdl"
+PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+#ASSUME_PROVIDED += "libsdl-native"
+
+CONF_VERSION = "1"
