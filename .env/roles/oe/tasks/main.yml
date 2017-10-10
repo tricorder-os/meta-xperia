@@ -17,6 +17,8 @@
     - chrpath
     - libsdl1.2-dev
     - xterm
+    - libssl-dev
+    - libncurses5-dev
 
 - name: create oe root directory
   file:
