@@ -20,7 +20,7 @@ BRANCH = "cm-14.1"
 SRCREV_kernel = "6b0d8699a824949a2a956372bf99efa49d755b07"
 
 SRC_URI = " \
-  git://github.com/SonyLOS/android_kernel_sony_msm.git;protocol=https;branch=${BRANCH};destsuffix=linux-${PV};name=kernel
+  git://github.com/SonyLOS/android_kernel_sony_msm.git;protocol=https;branch=${BRANCH};destsuffix=linux-${PV};name=kernel \
   "
 
 S = "${WORKDIR}/linux-${PV}"
