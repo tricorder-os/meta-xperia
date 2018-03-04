@@ -25,7 +25,7 @@ MACHINE_FEATURES = " \
 
 PREFERRED_PROVIDER_u-boot ?= "u-boot"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-sony-los"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
 
 KERNEL_CMDLINE = "vmalloc=300M console=ttyHSL0,115200,n8 root=/dev/sda65 rootwait"
 KERNEL_RAMBASE = "0x00000000"
