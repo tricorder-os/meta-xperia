@@ -21,10 +21,11 @@ SRCREV_kernel = "267ef1d332845c1d361ff3fd1d346613a12db773"
 
 SRC_URI = " \
   git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=https;branch=${BRANCH};destsuffix=linux-${PV};name=kernel \
+  file://defconfig \
   "
 
 S = "${WORKDIR}/linux-${PV}"
 
-do_configure_append() {
-  oe_runmake ${KERNEL_DEFCONFIG}
-}
+#do_configure_append() {
+#  oe_runmake ${KERNEL_DEFCONFIG}
+#}
