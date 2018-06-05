@@ -1,3 +1,0 @@
-/.env/* linguist-vendored
-/env.sh linguist-vendored
-*.inc linguist-language=Bitbake
